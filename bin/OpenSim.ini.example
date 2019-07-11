@@ -925,6 +925,7 @@
     ;; Money Unit fee to create groups.  Default is 0.
     ; PriceGroupCreate = 0
 
+
 [YEngine]
     ;; experimental engine
     ;; implements non preemptive microthreading, so fixing problems like llSleep or long events handlers
@@ -938,11 +939,79 @@
     MinTimerInterval = 0.1
     ;ScriptBasePath="ScriptEngines"
 
+
+[LibLSLCC]
+    ;; Disable or enable LibLSLCC extended compiler warnings.
+    ;; This is set to true by default, but you can set it to false if you think
+    ;; LibLSLCC's extended warnings are too pedantic.
+    ;;
+    ;; In the future I will probably implement warning codes that can be disabled
+    ;; selectively from this configuration file.
+    ;;
+    ;  EnableCompilerWarnings = true
+    
+    
+    ;; Allows you to enable or disable automatic class generation for all CSharp
+    ;; scripts when uploading CSharp directly to the LibLSLCC compiler.
+    ;;
+    ;; This setting only meaningful if you have CSharp scripting enabled and are 
+    ;; using LibLSLCC as your compiler.
+    ;;
+    ;; This is for advanced users who know how to completely define 
+    ;; the script class that derives from OpenSim's runtime base class
+    ;; for script instances.
+    ;;
+    ;; Its primary purpose is debuging LibLSLCC's code generation
+    ;; via client uploaded scripts compiled in server side mode from LSLCCEditor.
+    ;;
+    ;; It defaults to 'true' which is the normal behavior for CSharp uploads
+    ;; while using the old compiler.
+    ;;
+    ;; You can override this on a per script basis by adding 'csraw' to the allowed
+    ;; languages list for XEngine when LibLSLCC is active.  When 'csraw' is allowed, you can put
+    ;; a '//c#-raw' comment at the very begining of your script.  It will cause the compiler
+    ;; not to generate the class wrapper, namespace or includes normally added to a C# upload.
+    ;; This happens just for that one script and not others uploaded with a '//c#' header.
+    ;;
+    ;; Setting this setting to 'false' effectively means you want all CSharp script types to be
+    ;; considered 'csraw' regardless of whether or not XEngine has it in the allowed languages list.
+    ;;
+    ;  CreateClassWrapperForCSharpScripts = true
+    
+    
+    ;; Same idea as CreateClassWrapperForCSharpScripts
+    ;; Except this applies to when Visual Basic scripts are uploaded
+    ;; from the client.
+    ;;
+    ;; You can override this setting on a per script basis by adding 'vbraw' to the allowed
+    ;; languages list for XEngine.  When 'vbraw' is allowed, you can put a '//vb-raw' comment 
+    ;; at the very begining of your script.  It will cause the compiler not to generate the class
+    ;; wrapper, namespace or includes normally added to a VB upload.
+    ;;
+    ;; Setting this setting to 'false' effectively means you want all VB script upload types to be
+    ;; considered 'vbraw' regardless of whether or not XEngine has it in the allowed languages list.
+    ;;
+    ;  CreateClassWrapperForVBScripts = true	
+	
+
+	
 [XEngine]
     ;# {Enabled} {} {Enable the XEngine scripting engine?} {true false} true
     ;; Enable this engine in this OpenSim instance
     ; Enabled = true
 
+	;; The assembly to load the compiler implementation from
+    ;; Default is OpenSim.Region.ScriptEngine.Shared.CodeTools.dll
+    ;;
+    ;  CompilerAssembly = "OpenSim.Region.ScriptEngine.Shared.CodeTools.dll"
+       CompilerAssembly = "OpenSim.Region.ScriptEngine.Shared.LibLSLCCCompiler.dll"
+	
+    ;; The name of the class that implements the compiler
+    ;; Default is OpenSim.Region.ScriptEngine.Shared.CodeTools.Compiler
+    ;;
+    ;  CompilerClass = "OpenSim.Region.ScriptEngine.Shared.CodeTools.Compiler"
+       CompilerClass = "OpenSim.Region.ScriptEngine.Shared.LibLSLCCCompiler.Compiler"
+	     
     ;; How many threads to keep alive even if nothing is happening
     ; MinThreads = 2
 
@@ -991,6 +1060,9 @@
     ;; Current valid values are "abort" and "co-op"
     ; ScriptStopStrategy = co-op
 
+    ;; Save the source of all compiled scripts.
+    ;; Creates a source file (.cs) in ScriptEngines, containing the preprocessed script.
+    ;  WriteScriptSourceToDebugFile = false
 
     ;# {DeleteScriptsOnStartup} {} {Delete previously compiled script DLLs on startup?} {true false} true
     ;; Controls whether previously compiled scripts DLLs are deleted on sim restart. If you set this to false
@@ -1005,6 +1077,32 @@
     ;; But this costs a lot of time, so region load will take a lot longer.
     ;; it is more usefull if there are no previously compiled scripts DLLs (as with DeleteScriptsOnStartup = true)
     ;CompactMemOnLoad = false
+
+
+    ;# {DefaultCompileLanguage} {Enabled:true} {Default script language?} {lsl vb cs} lsl
+    ;; Default language for scripts
+    ; DefaultCompileLanguage = "lsl"
+
+    ;# {AllowedCompilers} {Enabled:true} {Languages to allow (comma separated)?} {} lsl
+    ;;
+    ;; Languages accepted by 'OpenSim.Region.ScriptEngine.Shared.CodeTools.Compiler':  (lsl,vb,cs) 
+    ;;
+    ;; Languages accepted by 'OpenSim.Region.ScriptEngine.Shared.LibLSLCCCompiler.Compiler':  (lsl,vb,cs,csraw,vbraw)
+    ;;
+    ;; The LibLSLCC compiler additionally accepts csraw and vbraw when active.
+    ;; The code headers for them are: //c#-raw  and //vb-raw
+    ;;
+    ;; These two new accepted language settings allow the LibLSLCC compiler to accept raw C# and VB code. 
+    ;; LibLSLCCCompiler will not generate a wrapper class for these code types, you must implement the entire script 
+    ;; class yourself when uploading 'csraw' or 'vbraw' scripts.
+    ;;
+    ;; example:
+    ;;
+    ;; AllowedCompilers=lsl,cs,vb
+    ;;
+    ;; *warning*, non lsl languages have access to static methods such as
+    ;; System.IO.File.  Enable at your own risk.
+    ; AllowedCompilers = "lsl"
 
     ;; Compile debug info (line numbers) into the script assemblies
     ; CompileWithDebugInformation = true

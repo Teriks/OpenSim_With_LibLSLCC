@@ -1,0 +1,158 @@
+﻿<LSLLibraryData>
+
+  <!-- 
+  
+    Events available to the compiler are defined here, this is for syntax checking.
+    This information cannot be retrieved from OpenSim via other means so it has to be defined statically.
+  
+  -->
+
+  <SubsetDescription Subset="os-Events" FriendlyName="OpenSim Event Handlers">
+    <Description>Event handlers implemented by OpenSim.</Description>
+  </SubsetDescription>
+
+  <EventHandler Name="at_rot_target" Subsets="os-Events">
+    <Parameter Name="target_number" Type="Integer" />
+    <Parameter Name="target_position" Type="Rotation" />
+    <Parameter Name="current_position" Type="Rotation" />
+  </EventHandler>
+  <EventHandler Name="at_target" Subsets="os-Events">
+    <Parameter Name="target_number" Type="Integer" />
+    <Parameter Name="target_position" Type="Vector" />
+    <Parameter Name="current_position" Type="Vector" />
+  </EventHandler>
+  <EventHandler Name="attach" Subsets="os-Events">
+    <Parameter Name="avatar" Type="Key" />
+  </EventHandler>
+  <EventHandler Name="changed" Subsets="os-Events">
+    <Parameter Name="changed_flags" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="collision" Subsets="os-Events">
+    <Parameter Name="number_of_collisions" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="collision_end" Subsets="os-Events">
+    <Parameter Name="number_of_collisions" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="collision_start" Subsets="os-Events">
+    <Parameter Name="number_of_collisions" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="control" Subsets="os-Events">
+    <Parameter Name="avatar" Type="Key" />
+    <Parameter Name="levels" Type="Integer" />
+    <Parameter Name="edges" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="dataserver" Subsets="os-Events">
+    <Parameter Name="request" Type="Key" />
+    <Parameter Name="data" Type="String" />
+  </EventHandler>
+  <EventHandler Name="email" Subsets="os-Events">
+    <Parameter Name="time" Type="String" />
+    <Parameter Name="address" Type="String" />
+    <Parameter Name="subject" Type="String" />
+    <Parameter Name="body" Type="String" />
+    <Parameter Name="number_remaining" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="http_request" Subsets="os-Events">
+    <Parameter Name="request" Type="Key" />
+    <Parameter Name="method" Type="String" />
+    <Parameter Name="body" Type="String" />
+  </EventHandler>
+  <EventHandler Name="http_response" Subsets="os-Events">
+    <Parameter Name="request" Type="Key" />
+    <Parameter Name="status" Type="Integer" />
+    <Parameter Name="metadata" Type="List" />
+    <Parameter Name="body" Type="String" />
+  </EventHandler>
+  <EventHandler Name="land_collision" Subsets="os-Events">
+    <Parameter Name="position" Type="Vector" />
+  </EventHandler>
+  <EventHandler Name="land_collision_end" Subsets="os-Events">
+    <Parameter Name="position" Type="Vector" />
+  </EventHandler>
+  <EventHandler Name="land_collision_start" Subsets="os-Events">
+    <Parameter Name="position" Type="Vector" />
+  </EventHandler>
+  <EventHandler Name="link_message" Subsets="os-Events">
+    <Parameter Name="sendersLink" Type="Integer" />
+    <Parameter Name="value" Type="Integer" />
+    <Parameter Name="message" Type="String" />
+    <Parameter Name="id" Type="Key" />
+  </EventHandler>
+  <EventHandler Name="listen" Subsets="os-Events">
+    <Parameter Name="channel" Type="Integer" />
+    <Parameter Name="name" Type="String" />
+    <Parameter Name="id" Type="Key" />
+    <Parameter Name="message" Type="String" />
+  </EventHandler>
+  <EventHandler Name="money" Subsets="os-Events">
+    <Parameter Name="payer" Type="Key" />
+    <Parameter Name="amount" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="moving_end" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="moving_start" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="no_sensor" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="not_at_rot_target" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="not_at_target" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="object_rez" Subsets="os-Events">
+    <Parameter Name="object_id" Type="Key" />
+  </EventHandler>
+  <EventHandler Name="on_rez" Subsets="os-Events">
+    <Parameter Name="start_parameter" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="path_update" Subsets="lsl">
+    <Parameter Name="type" Type="Integer" />
+    <Parameter Name="reserved" Type="List" />
+  </EventHandler>
+  <EventHandler Name="remote_data" Subsets="os-Events">
+    <Parameter Name="event_type" Type="Integer" />
+    <Parameter Name="channel_id" Type="Key" />
+    <Parameter Name="message_id" Type="Key" />
+    <Parameter Name="sender" Type="String" />
+    <Parameter Name="data_one" Type="Integer" />
+    <Parameter Name="data_two" Type="String" />
+  </EventHandler>
+  <EventHandler Name="run_time_permissions" Subsets="os-Events">
+    <Parameter Name="permission_flags" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="sensor" Subsets="os-Events">
+    <Parameter Name="num_detected" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="state_entry" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="state_exit" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="timer" Subsets="os-Events">
+  </EventHandler>
+  <EventHandler Name="touch" Subsets="os-Events">
+    <Parameter Name="total_number" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="touch_end" Subsets="os-Events">
+    <Parameter Name="total_number" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="touch_start" Subsets="os-Events">
+    <Parameter Name="total_number" Type="Integer" />
+  </EventHandler>
+  <EventHandler Name="transaction_result" Subsets="os-Events">
+    <Parameter Name="request_id" Type="Key" />
+    <Parameter Name="success" Type="Integer" />
+    <Parameter Name="message" Type="String" />
+  </EventHandler>
+  
+  <!-- Experiences are not implemented -->
+  <!--
+  <EventHandler Name="experience_permissions" Subsets="os-Events">
+    <Parameter Name="agent_id" Type="Key" />
+    <DocumentationString />
+  </EventHandler>
+  <EventHandler Name="experience_permissions_denied" Subsets="os-Events">
+    <Parameter Name="agent_id" Type="Key" />
+    <Parameter Name="reason" Type="Integer" />
+    <DocumentationString />
+  </EventHandler>
+  -->
+</LSLLibraryData>

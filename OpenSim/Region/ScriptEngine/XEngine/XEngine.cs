@@ -779,6 +779,66 @@ namespace OpenSim.Region.ScriptEngine.XEngine
             }
         }
 
+
+
+
+        /// <summary>
+        /// Dynamically load the compiler class using OpenSims configuration system to allow the specification of an assembly
+        /// and class that derives from ICompiler.
+        /// 
+        /// Config for this will be under the [XEngine] section
+        /// </summary>
+        /// <returns>A dynamically loaded implementation of ICompiler</returns>
+        private ICompiler LoadCompiler()
+        {
+            var compilerClassName = this.Config.GetString("CompilerClass",
+                "OpenSim.Region.ScriptEngine.Shared.CodeTools.Compiler");
+
+            var compilerAssemblyName = this.Config.GetString("CompilerAssembly",
+                "OpenSim.Region.ScriptEngine.Shared.CodeTools.dll");
+
+            Assembly compilerAssembly;
+
+            try
+            {
+                compilerAssembly = Assembly.LoadFile(Path.GetFullPath(compilerAssemblyName));
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("XEngine Failed to load the specified compiler assembly: {0}", compilerAssemblyName + ", message: " + e.Message), e);
+            }
+
+            ICompiler compiler;
+            Type compilerType;
+
+            try
+            {
+                compilerType = compilerAssembly.GetType(compilerClassName);
+
+                compiler = Activator.CreateInstance(compilerType, this) as ICompiler;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("XEngine Failed to load the specified compiler class: {0}", compilerClassName + ", message: " + e.Message), e);
+            }
+
+
+            if (compiler != null)
+            {
+                return compiler;
+            }
+
+
+            var message = string.Format(
+                "\"{0}\" is not a valid Compiler, Compilers must derive from ICompiler"
+                , compilerType.Name);
+
+            m_log.Error(message);
+
+            throw new ArgumentException(message, "CompilerClass");
+        }
+
+
         public void RegionLoaded(Scene scene)
         {
             if (!m_Enabled)
@@ -786,7 +846,7 @@ namespace OpenSim.Region.ScriptEngine.XEngine
 
             m_EventManager = new EventManager(this);
 
-            m_Compiler = new Compiler(this);
+            m_Compiler = LoadCompiler();
 
             m_Scene.EventManager.OnRemoveScript += OnRemoveScript;
             m_Scene.EventManager.OnScriptReset += OnScriptReset;
@@ -811,6 +871,7 @@ namespace OpenSim.Region.ScriptEngine.XEngine
                                            new Object[] { m_SaveTime });
             }
         }
+
 
         public void StartProcessing()
         {

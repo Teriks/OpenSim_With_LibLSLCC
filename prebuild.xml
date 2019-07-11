@@ -2265,6 +2265,41 @@
         </Match>
       </Files>
     </Project>
+	
+	<Project frameworkVersion="v4_6" name="OpenSim.Region.ScriptEngine.Shared.LibLSLCCCompiler" path="OpenSim/Region/ScriptEngine/Shared/LibLSLCCCompiler" type="Library">
+      <Configuration name="Debug">
+        <Options>
+          <OutputPath>../../../../../bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release">
+        <Options>
+          <OutputPath>../../../../../bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../../../bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="OpenSim.Framework"/>
+      <Reference name="OpenSim.Region.Framework"/>
+      <Reference name="OpenSim.Region.ScriptEngine.Shared"/>
+	  <Reference name="OpenSim.Region.ScriptEngine.Shared.CodeTools"/>
+	  <Reference name="OpenSim.Region.ScriptEngine.Shared.Api.Runtime"/>
+	  <Reference name="System.Xml"/>
+      <Reference name="OpenSim.Region.CoreModules"/>
+      <Reference name="OpenMetaverseTypes" path="../../../../../bin/"/>
+      <Reference name="Nini" path="../../../../../bin/"/>
+      <Reference name="log4net" path="../../../../../bin/"/>
+      <Reference name="Tools" path="../../../../../bin/"/>
+	  <Reference name="LibLSLCC" path="../../../../../bin/"/>
+	  
+      <Files>
+        <Match buildAction="EmbeddedResource" path="Resources" pattern="*.xml" recurse="true"/>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="Tests" pattern="Tests"/>
+        </Match>
+      </Files>
+    </Project>
 
     <Project frameworkVersion="v4_6" name="OpenSim.Region.ScriptEngine.Shared.CodeTools" path="OpenSim/Region/ScriptEngine/Shared/CodeTools" type="Library">
       <Configuration name="Debug">
